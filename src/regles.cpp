@@ -4,22 +4,23 @@ namespace uin {
 
 Mention mentionPour(double moyenne)
 {
-    if (moyenne < seuilValidation) { return Mention::Ajourne; }
-    if (moyenne < 12.0) { return Mention::Passable; }
-    if (moyenne < 14.0) { return Mention::AssezBien; }
-    if (moyenne < 16.0) { return Mention::Bien; }
-    return Mention::TresBien;
+    int rang{0};
+    for (double seuil : seuilsMentions) {
+        if (moyenne >= seuil) {
+            ++rang;
+        }
+    }
+    return static_cast<Mention>(rang);
 }
 
 std::string_view libelle(Mention mention)
 {
-    using enum Mention;
     switch (mention) {
-        case Ajourne:   return "Ajourné";
-        case Passable:  return "Passable";
-        case AssezBien: return "Assez bien";
-        case Bien:      return "Bien";
-        case TresBien:  return "Très bien";
+    case Mention::Ajourne: return "Ajourné";
+    case Mention::Passable: return "Passable";
+    case Mention::AssezBien: return "Assez bien";
+    case Mention::Bien: return "Bien";
+    case Mention::TresBien: return "Très bien";
     }
     return "Inconnue";
 }
